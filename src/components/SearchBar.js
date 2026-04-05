@@ -51,12 +51,12 @@ export default function SearchBar() {
         <button
           onClick={() => setOpen(prev => !prev)}
           className={`
-            flex flex-col items-start px-6 py-3 rounded-full transition-colors
+            flex flex-col items-start text-left px-6 py-3 rounded-full transition-colors w-44
             ${open ? 'bg-white' : 'hover:bg-gray-50'}
           `}
         >
           <span className="text-xs font-semibold text-gray-800 leading-none">여행자</span>
-          <span className={`text-sm mt-0.5 ${label ? 'text-gray-800' : 'text-gray-400'}`}>
+          <span className={`text-sm mt-0.5 truncate w-full ${label ? 'text-gray-800' : 'text-gray-400'}`}>
             {label ?? '게스트 추가'}
           </span>
         </button>
