@@ -39,12 +39,12 @@ export default function DestinationSearch({ value, onChange, isOpen, onOpen, onC
 
     if (e.key === 'ArrowDown') {
       e.preventDefault()
-      const next = (highlightedIndex + 1) % items.length // 순환
+      const next = highlightedIndex === -1 ? 0 : (highlightedIndex + 1) % items.length
       setHighlightedIndex(next)
       setDisplayQuery(items[next].name) // 입력창에 선택된 항목 이름 표시
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
-      const next = (highlightedIndex - 1 + items.length) % items.length // 순환
+      const next = highlightedIndex === -1 ? items.length - 1 : (highlightedIndex - 1 + items.length) % items.length
       setHighlightedIndex(next)
       setDisplayQuery(items[next].name)
     } else if (e.key === 'Enter') {
