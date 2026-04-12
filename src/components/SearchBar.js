@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import GuestModal from './GuestModal'
 import DestinationSearch from './DestinationSearch/DestinationSearch'
+import { SearchIcon } from './icons'
 
 const INITIAL_GUESTS = { adults: 0, children: 0, infants: 0, pets: 0 }
 
@@ -83,10 +84,7 @@ export default function SearchBar() {
             className="flex items-center gap-2 bg-[#FF385C] hover:bg-[#E31C5F] text-white font-semibold text-sm rounded-full px-5 py-3 transition-colors"
             onClick={() => setActivePanel(null)}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
+            <SearchIcon />
             검색
           </button>
         </div>

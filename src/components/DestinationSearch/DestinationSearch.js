@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import DestinationDropdown from './DestinationDropdown'
 import { RECOMMENDED_DESTINATIONS, searchDestinations } from './destinationData'
+import { ClearIcon } from '../icons'
 
 export default function DestinationSearch({ value, onChange, isOpen, onOpen, onClose }) {
   // typedQuery: 사용자가 실제로 입력한 텍스트, 드롭다운 필터링에 사용
@@ -105,10 +106,7 @@ export default function DestinationSearch({ value, onChange, isOpen, onOpen, onC
                   className="ml-2 flex-shrink-0 w-5 h-5 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
                   aria-label="입력 지우기"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
+                  <ClearIcon className="w-3 h-3 text-gray-600" />
                 </button>
               )}
             </>

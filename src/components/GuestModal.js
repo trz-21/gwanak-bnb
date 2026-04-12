@@ -1,3 +1,5 @@
+import { MinusIcon, PlusIcon } from './icons'
+
 const MAX = 20
 
 const GUEST_TYPES = [
@@ -70,9 +72,7 @@ function CounterRow({ label, desc, isPet, count, onDecrement, onIncrement }) {
             disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:border-gray-300 disabled:hover:text-gray-400
           "
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5">
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
+          <MinusIcon />
         </button>
 
         <span className="w-5 text-center text-[15px] text-gray-900 select-none">{count}</span>
@@ -88,10 +88,7 @@ function CounterRow({ label, desc, isPet, count, onDecrement, onIncrement }) {
             disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:border-gray-300 disabled:hover:text-gray-400
           "
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5">
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
+          <PlusIcon />
         </button>
       </div>
     </div>
