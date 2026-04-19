@@ -22,4 +22,9 @@ function jsAsJsx() {
 
 export default defineConfig({
   plugins: [jsAsJsx(), react({ include: '**/*.{js,jsx}' }), tailwindcss()],
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3001',
+    },
+  },
 })

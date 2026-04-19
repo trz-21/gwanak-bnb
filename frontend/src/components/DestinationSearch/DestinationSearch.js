@@ -16,9 +16,6 @@ export default function DestinationSearch({ value, onChange, isOpen, onOpen, onC
   // useEffect: 패널이 열릴 때 input 포커스 (DOM 조작이므로 effect 적절한 사용처)
   useEffect(() => {
     if (isOpen) {
-      setTypedQuery(value)
-      setDisplayQuery(value)
-      setHighlightedIndex(-1)
       inputRef.current?.focus()
     }
   }, [isOpen])
@@ -81,7 +78,12 @@ export default function DestinationSearch({ value, onChange, isOpen, onOpen, onC
         className={`flex flex-col items-start px-6 py-3 rounded-full transition-colors min-w-[210px] ${
           isOpen ? 'cursor-default' : 'cursor-pointer hover:bg-gray-50'
         }`}
-        onClick={!isOpen ? onOpen : undefined}
+        onClick={!isOpen ? () => {
+          setTypedQuery(value)
+          setDisplayQuery(value)
+          setHighlightedIndex(-1)
+          onOpen()
+        } : undefined}
       >
         <span className="text-xs font-semibold text-gray-800 leading-none select-none">여행지</span>
 
