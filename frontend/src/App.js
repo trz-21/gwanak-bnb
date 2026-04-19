@@ -2,6 +2,7 @@ import { useState } from 'react'
 import SearchBar from './components/SearchBar'
 import SearchResults from './components/SearchResults/SearchResults'
 import PriceFilter from './components/PriceFilter/PriceFilter'
+import { API_URL } from './config'
 
 export default function App() {
   const [searchResults, setSearchResults] = useState([])
@@ -19,7 +20,7 @@ export default function App() {
       if (params.checkIn) qs.set('checkIn', params.checkIn)
       if (params.checkOut) qs.set('checkOut', params.checkOut)
 
-      const res = await fetch(`/api/accommodations/search?${qs}`)
+      const res = await fetch(`${API_URL}/api/accommodations/search?${qs}`)
       const data = await res.json()
       setSearchResults(data.accommodations)
       setSearchParams(params)

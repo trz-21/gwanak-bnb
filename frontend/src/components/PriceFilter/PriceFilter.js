@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import PriceHistogram from './PriceHistogram'
+import { API_URL } from '../../config'
 
 const GLOBAL_MIN = 0
 const GLOBAL_MAX = 2000000
@@ -25,7 +26,7 @@ export default function PriceFilter({ searchParams, onClose, onApply }) {
     if (destination) qs.set('destination', destination)
     if (guests > 0) qs.set('guests', guests)
 
-    fetch(`/api/accommodations/price-distribution?${qs}`)
+    fetch(`${API_URL}/api/accommodations/price-distribution?${qs}`)
       .then(r => r.json())
       .then(data => {
         setBuckets(data.buckets || [])
@@ -41,7 +42,7 @@ export default function PriceFilter({ searchParams, onClose, onApply }) {
     qs.set('minPrice', minPrice)
     if (maxPrice < GLOBAL_MAX) qs.set('maxPrice', maxPrice)
 
-    fetch(`/api/accommodations/count?${qs}`)
+    fetch(`${API_URL}/api/accommodations/count?${qs}`)
       .then(r => r.json())
       .then(data => setCount(data.count))
       .catch(console.error)
@@ -63,7 +64,7 @@ export default function PriceFilter({ searchParams, onClose, onApply }) {
     if (searchParams?.checkOut) qs.set('checkOut', searchParams.checkOut)
     if (roomType !== 'all') qs.set('type', roomType)
 
-    const res = await fetch(`/api/accommodations/search?${qs}`)
+    const res = await fetch(`${API_URL}/api/accommodations/search?${qs}`)
     const data = await res.json()
     onApply(data.accommodations)
   }
