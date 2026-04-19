@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import GuestModal from './GuestModal'
 import DestinationSearch from './DestinationSearch/DestinationSearch'
+import DatePicker from './DatePicker/DatePicker'
 import { SearchIcon } from './icons'
 
 const INITIAL_GUESTS = { adults: 0, children: 0, infants: 0, pets: 0 }
@@ -15,16 +16,21 @@ function guestLabel(guests) {
   return parts.join(', ')
 }
 
-export default function SearchBar() {
+function formatDateShort(dateStr) {
+  if (!dateStr) return null
+  const d = new Date(dateStr)
+  return `${d.getMonth() + 1}월 ${d.getDate()}일`
+}
+
+export default function SearchBar({ onSearch }) {
   const [destination, setDestination] = useState('')
   const [guests, setGuests] = useState(INITIAL_GUESTS)
-  // 어떤 패널이 열려있는지 추적 - 하나만 열 수 있도록
-  const [activePanel, setActivePanel] = useState(null) // 'destination' | 'guest' | null
+  const [checkIn, setCheckIn] = useState(null)
+  const [checkOut, setCheckOut] = useState(null)
+  const [activePanel, setActivePanel] = useState(null) // 'destination' | 'date' | 'guest' | null
 
-  // useRef: 컨테이너 외부 클릭 감지를 위한 DOM 참조
   const containerRef = useRef(null)
 
-  // useEffect: 컨테이너 외부 클릭 시 모든 패널 닫기
   useEffect(() => {
     function handleOutsideClick(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -37,10 +43,18 @@ export default function SearchBar() {
 
   const label = guestLabel(guests)
   const isAnyOpen = activePanel !== null
+  const s = formatDateShort(checkIn)
+  const e = formatDateShort(checkOut)
+  const dateLabel = s && e ? `${s} ~ ${e}` : s ? `${s} ~` : null
+
+  function handleSearch() {
+    const totalGuests = guests.adults + guests.children + guests.infants
+    onSearch?.({ destination, guests: totalGuests, checkIn, checkOut })
+    setActivePanel(null)
+  }
 
   return (
     <div ref={containerRef} className="relative flex flex-col items-center">
-      {/* 검색 pill */}
       <div
         className={`
           flex items-center bg-white rounded-full border transition-shadow
@@ -58,7 +72,22 @@ export default function SearchBar() {
           onClose={() => setActivePanel(null)}
         />
 
-        {/* 구분선 */}
+        <div className="w-px h-7 bg-gray-200 flex-shrink-0" />
+
+        {/* 날짜 섹션 */}
+        <button
+          onClick={() => setActivePanel(prev => prev === 'date' ? null : 'date')}
+          className={`
+            flex flex-col items-start text-left px-6 py-3 rounded-full transition-colors w-44 flex-shrink-0
+            ${activePanel === 'date' ? 'bg-white' : 'hover:bg-gray-50'}
+          `}
+        >
+          <span className="text-xs font-semibold text-gray-800 leading-none">날짜</span>
+          <span className={`text-sm mt-0.5 truncate w-full ${dateLabel ? 'text-gray-800' : 'text-gray-400'}`}>
+            {dateLabel ?? '날짜 추가'}
+          </span>
+        </button>
+
         <div className="w-px h-7 bg-gray-200 flex-shrink-0" />
 
         {/* 여행자 섹션 */}
@@ -75,20 +104,30 @@ export default function SearchBar() {
           </span>
         </button>
 
-        {/* 구분선 */}
         <div className="w-px h-7 bg-gray-200 flex-shrink-0" />
 
         {/* 검색 버튼 */}
         <div className="pr-2 pl-2 flex-shrink-0">
           <button
             className="flex items-center gap-2 bg-[#FF385C] hover:bg-[#E31C5F] text-white font-semibold text-sm rounded-full px-5 py-3 transition-colors"
-            onClick={() => setActivePanel(null)}
+            onClick={handleSearch}
           >
             <SearchIcon />
             검색
           </button>
         </div>
       </div>
+
+      {/* 날짜 선택 드롭다운 */}
+      {activePanel === 'date' && (
+        <div className="absolute top-full mt-3 left-1/2 -translate-x-1/2 z-50">
+          <DatePicker
+            checkIn={checkIn}
+            checkOut={checkOut}
+            onChange={(ci, co) => { setCheckIn(ci); setCheckOut(co) }}
+          />
+        </div>
+      )}
 
       {/* 여행자 선택 모달 드롭다운 */}
       {activePanel === 'guest' && (
